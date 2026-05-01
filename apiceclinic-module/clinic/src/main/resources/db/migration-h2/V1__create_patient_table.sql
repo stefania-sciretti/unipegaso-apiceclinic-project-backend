@@ -7,6 +7,7 @@ CREATE TABLE patient (
     birth_date  DATE         NOT NULL,
     email       VARCHAR(255) NOT NULL,
     phone       VARCHAR(50),
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

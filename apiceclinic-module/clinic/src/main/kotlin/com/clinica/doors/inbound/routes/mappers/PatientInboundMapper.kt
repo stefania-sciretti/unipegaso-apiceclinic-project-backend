@@ -2,7 +2,6 @@ package com.clinica.doors.inbound.routes.mappers
 
 import com.clinica.application.domain.Patient
 import com.clinica.dto.PatientResponse
-import java.time.LocalDateTime
 
 fun Patient.toResponse() = PatientResponse(
     id = this.id,
@@ -12,5 +11,5 @@ fun Patient.toResponse() = PatientResponse(
     birthDate = this.birthDate,
     email = this.email,
     phone = this.phone,
-    createdAt = LocalDateTime.now()
+    createdAt = this.createdAt
 )
