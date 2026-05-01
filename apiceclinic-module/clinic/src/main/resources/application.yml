@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: apice-clinic
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
+  jpa:
+    open-in-view: false
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+
+jwt:
+  secret: ${JWT_SECRET:ApiceClinicSecretKeyForJWTTokenGenerationMinimum256BitsRequired1234567}
+  expiration: ${JWT_EXPIRATION:86400000}

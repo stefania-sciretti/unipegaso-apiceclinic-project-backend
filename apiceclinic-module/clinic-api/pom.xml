@@ -245,6 +245,34 @@
                             </configOptions>
                         </configuration>
                     </execution>
+
+                    <!-- TrainingPlan -->
+                    <execution>
+                        <id>generate-trainingplan-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/TrainingPlan.yml</inputSpec>
+                            <output>${project.build.directory}/generated-trainingplan</output>
+
+                            <generatorName>kotlin</generatorName>
+                            <modelPackage>com.clinic.model</modelPackage>
+                            <modelOnly>true</modelOnly>
+
+                            <apiPackage>ignore.api</apiPackage>
+                            <generateModelTests>false</generateModelTests>
+                            <generateApiTests>false</generateApiTests>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <supportingFilesToGenerate/>
+
+                            <configOptions>
+                                <dateLibrary>java8</dateLibrary>
+                                <serializationLibrary>jackson</serializationLibrary>
+                            </configOptions>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -260,7 +288,6 @@
                         </goals>
                         <configuration>
                             <sources>
-
                                 <source>${project.build.directory}/generated-appointment/src/main/kotlin/com/clinic/model</source>
                                 <source>${project.build.directory}/generated-dietplan/src/main/kotlin/com/clinic/model</source>
                                 <source>${project.build.directory}/generated-fitness/src/main/kotlin/com/clinic/model</source>
@@ -268,6 +295,7 @@
                                 <source>${project.build.directory}/generated-staff/src/main/kotlin/com/clinic/model</source>
                                 <source>${project.build.directory}/generated-recipe/src/main/kotlin/com/clinic/model</source>
                                 <source>${project.build.directory}/generated-report/src/main/kotlin/com/clinic/model</source>
+                                <source>${project.build.directory}/generated-trainingplan/src/main/kotlin/com/clinic/model</source>
                             </sources>
                         </configuration>
                     </execution>

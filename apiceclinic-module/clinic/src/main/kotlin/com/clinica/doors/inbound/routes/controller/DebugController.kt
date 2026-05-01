@@ -1,13 +1,11 @@
 package com.clinica.doors.inbound.routes.controller
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 
-/**
- * Debug controller per test e diagnostica (dev only)
- * Endpoint per generare BCrypt hash e verificare password
- */
+@Profile("dev")
 @RestController
 @RequestMapping("/api/debug")
 class DebugController {

@@ -1,0 +1,13 @@
+-- V5: Create report table
+CREATE TABLE report (
+    id              BIGSERIAL PRIMARY KEY,
+    appointment_id  BIGINT    NOT NULL UNIQUE REFERENCES appointment(id),
+    issued_date     DATE      NOT NULL DEFAULT CURRENT_DATE,
+    diagnosis       TEXT      NOT NULL,
+    prescription    TEXT,
+    doctor_notes    TEXT,
+    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_report_appointment_id ON report(appointment_id);

@@ -1,0 +1,209 @@
+openapi: 3.0.3
+info:
+  title: Training Plan API
+  description: API for managing personalized workout plans assigned to clients
+  version: 1.0.0
+
+paths:
+  /api/training-plans:
+    get:
+      summary: List training plans
+      operationId: listTrainingPlans
+      tags: [Training Plans]
+      parameters:
+        - name: clientId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+          description: Filter plans by client ID
+      responses:
+        '200':
+          description: List of training plans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingPlanResponse'
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a new training plan
+      operationId: createTrainingPlan
+      tags: [Training Plans]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingPlanRequest'
+      responses:
+        '201':
+          description: Training plan created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingPlanResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Client or trainer not found
+
+  /api/training-plans/{id}:
+    get:
+      summary: Get training plan by ID
+      operationId: getTrainingPlanById
+      tags: [Training Plans]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Training plan found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingPlanResponse'
+        '404':
+          description: Training plan not found
+    put:
+      summary: Update a training plan
+      operationId: updateTrainingPlan
+      tags: [Training Plans]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingPlanRequest'
+      responses:
+        '200':
+          description: Training plan updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingPlanResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Training plan not found
+    delete:
+      summary: Delete a training plan
+      operationId: deleteTrainingPlan
+      tags: [Training Plans]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Training plan deleted
+        '404':
+          description: Training plan not found
+
+components:
+  schemas:
+    TrainingPlanRequest:
+      type: object
+      required:
+        - clientId
+        - trainerId
+        - title
+      properties:
+        clientId:
+          type: integer
+          format: int64
+          description: ID of the client (patient)
+        trainerId:
+          type: integer
+          format: int64
+          description: ID of the assigned staff/trainer
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        weeks:
+          type: integer
+          nullable: true
+          minimum: 1
+        sessionsPerWeek:
+          type: integer
+          nullable: true
+          minimum: 1
+        active:
+          type: boolean
+          default: true
+
+    TrainingPlanResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        clientId:
+          type: integer
+          format: int64
+        clientFullName:
+          type: string
+        trainerId:
+          type: integer
+          format: int64
+        trainerFullName:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        weeks:
+          type: integer
+          nullable: true
+        sessionsPerWeek:
+          type: integer
+          nullable: true
+        active:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
