@@ -85,3 +85,136 @@ OpenAPI JSON:
 http://localhost:8080/v3/api-docs
 ```
 
+---
+
+## Schema ER
+
+```mermaid
+erDiagram
+    patient {
+        bigint id PK
+        varchar first_name
+        varchar last_name
+        varchar fiscal_code UK
+        date birth_date
+        varchar email
+        varchar phone
+        timestamp created_at
+        timestamp updated_at
+    }
+    areas {
+        bigint id PK
+        varchar name
+    }
+    specialist {
+        bigint id PK
+        varchar first_name
+        varchar last_name
+        varchar role
+        text bio
+        varchar email UK
+        bigint area_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+    appointment {
+        bigint id PK
+        bigint patient_id FK
+        bigint specialist_id FK
+        timestamp scheduled_at
+        varchar visit_type
+        varchar status
+        text notes
+        numeric price
+        timestamp updated_at
+    }
+    report {
+        bigint id PK
+        bigint appointment_id FK
+        date issued_date
+        text diagnosis
+        text prescription
+        text specialist_notes
+        timestamp created_at
+        timestamp updated_at
+    }
+    diet_plan {
+        bigint id PK
+        bigint patient_id FK
+        bigint specialist_id FK
+        varchar title
+        text description
+        int calories
+        int duration_weeks
+        boolean active
+        timestamp created_at
+        timestamp updated_at
+    }
+    training_plan {
+        bigint id PK
+        bigint patient_id FK
+        bigint specialist_id FK
+        varchar title
+        text description
+        int weeks
+        int sessions_per_week
+        boolean active
+        timestamp created_at
+        timestamp updated_at
+    }
+    glycemia_measurement {
+        bigint id PK
+        bigint patient_id FK
+        bigint specialist_id FK
+        timestamp measured_at
+        int value_mg_dl
+        varchar context
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+    services {
+        bigint id PK
+        varchar service
+        numeric price
+        bigint specialist_id FK
+        bigint area_id FK
+    }
+    recipe {
+        bigint id PK
+        varchar title
+        text description
+        text ingredients
+        text instructions
+        int calories
+        varchar category
+        timestamp created_at
+        timestamp updated_at
+    }
+    users {
+        bigint id PK
+        varchar username UK
+        varchar password
+        varchar email
+        varchar role
+        boolean enabled
+        bigint patient_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    areas        ||--o{ specialist          : "groups"
+    areas        ||--o{ services            : "categorizes"
+    patient      ||--o{ appointment         : "books"
+    specialist   ||--o{ appointment         : "manages"
+    appointment  ||--o| report              : "generates"
+    patient      ||--o{ diet_plan           : "follows"
+    specialist   ||--o{ diet_plan           : "assigns"
+    patient      ||--o{ training_plan       : "follows"
+    specialist   ||--o{ training_plan       : "assigns"
+    patient      ||--o{ glycemia_measurement: "has"
+    specialist   ||--o{ glycemia_measurement: "records"
+    specialist   ||--o{ services            : "offers"
+    patient      ||--o| users               : "linked to"
+```
+
