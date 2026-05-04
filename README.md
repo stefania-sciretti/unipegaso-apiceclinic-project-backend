@@ -20,7 +20,7 @@ REST API per la gestione di una clinica sportiva. Sviluppata con **Kotlin + Spri
 
 ## Prerequisiti
 
-- **JDK 17**
+- **JDK 21**
 - **Maven 3.8+**
 - **PostgreSQL 14+** in esecuzione su `localhost:5432`
 
@@ -71,34 +71,6 @@ password: user123
 role:     ROLE_USER
 ```
 
-### Autenticazione
-
-```http
-POST /api/auth/login
-Content-Type: application/json
-
-{
-  "username": "admin",
-  "password": "admin123"
-}
-```
-
-Risposta:
-```json
-{
-  "accessToken": "<jwt>",
-  "tokenType": "Bearer",
-  "username": "admin",
-  "role": "ROLE_ADMIN",
-  "userId": 1
-}
-```
-
-Usa il token nelle chiamate successive:
-```
-Authorization: Bearer <accessToken>
-```
-
 ---
 
 ## Documentazione API
@@ -113,13 +85,3 @@ OpenAPI JSON:
 http://localhost:8080/v3/api-docs
 ```
 
----
-
-## Struttura del progetto
-
-```
-apiceclinic-module/
-├── clinic/          # Applicazione principale (controllers, services, entities)
-│   └── src/main/resources/db/migration/   # Migrazioni Flyway
-└── clinic-api/      # Modelli generati da OpenAPI spec
-```
