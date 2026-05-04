@@ -11,20 +11,28 @@
 --   agendaOccupancy:    ~42% (COMPLETED + CONFIRMED vs total May)
 --   cancellationRate:   0% (no CANCELLED added in May)
 
--- ── Prerequisite check ────────────────────────────────────────────────────────
-DO $$
-BEGIN
-    IF (SELECT COUNT(*) FROM patient WHERE email IN (
-        'a.ferrari@gmail.com', 'g.rossi@libero.it',  'f.bianchi@yahoo.it',
-        'v.ferrara@libero.it', 's.greco@gmail.com',  'p.lombardi@yahoo.it',
-        'c.gatti@gmail.com',   'n.deluca@gmail.com', 'r.gentile@gmail.com',
-        'a.moretti@libero.it', 'b.barbieri@yahoo.it','c.fontana@gmail.com',
-        'd.santoro@libero.it', 'e.rinaldi@gmail.com','f.caruso@yahoo.it',
-        'g.ferrari@gmail.com', 'm.russo@libero.it',  'l.marino@gmail.com'
-    )) <> 18 THEN
-        RAISE EXCEPTION 'V114: prerequisite check failed – 18 patient emails from V101_1 not found';
-    END IF;
-END $$;
+-- ── 18 patients from V101_1 batch (idempotent — skipped if already present) ──
+INSERT INTO patient (first_name, last_name, fiscal_code, birth_date, email, phone)
+VALUES
+    ('Antonio',   'Ferrari',   'FRRNTN82C14H501A', '1982-03-14', 'a.ferrari@gmail.com',   '+39 333 1100001'),
+    ('Giuseppe',  'Rossi',     'RSSGPP70E19F205B', '1970-05-19', 'g.rossi@libero.it',     '+39 347 1100002'),
+    ('Francesco', 'Bianchi',   'BNCFNC85T10A662C', '1985-12-10', 'f.bianchi@yahoo.it',    NULL),
+    ('Vincenzo',  'Ferrara',   'FRRVNC64P02H501E', '1964-09-02', 'v.ferrara@libero.it',   NULL),
+    ('Salvatore', 'Greco',     'GRCSLV71S08F205F', '1971-11-08', 's.greco@gmail.com',     '+39 366 1100006'),
+    ('Pietro',    'Lombardi',  'LMBPTR88B16L219G', '1988-02-16', 'p.lombardi@yahoo.it',   '+39 347 1100007'),
+    ('Carlo',     'Gatti',     'GTTCRL76M29H501H', '1976-08-29', 'c.gatti@gmail.com',     NULL),
+    ('Nicola',    'De Luca',   'DLCNCL84L06L219J', '1984-07-06', 'n.deluca@gmail.com',    '+39 328 1100010'),
+    ('Riccardo',  'Gentile',   'GNTRCC90P07F205L', '1990-09-07', 'r.gentile@gmail.com',   '+39 347 1100012'),
+    ('Alberto',   'Moretti',   'MRTLBR69R14L219M', '1969-10-14', 'a.moretti@libero.it',   '+39 366 1100013'),
+    ('Bruno',     'Barbieri',  'BRBBRN83S21H501N', '1983-11-21', 'b.barbieri@yahoo.it',   NULL),
+    ('Claudio',   'Fontana',   'FNTCLD78C05F205O', '1978-03-05', 'c.fontana@gmail.com',   '+39 333 1100015'),
+    ('Dario',     'Santoro',   'SNTDRA86M12L219P', '1986-08-12', 'd.santoro@libero.it',   '+39 328 1100016'),
+    ('Edoardo',   'Rinaldi',   'RNLDRD73L27H501Q', '1973-07-27', 'e.rinaldi@gmail.com',   NULL),
+    ('Fabio',     'Caruso',    'CRSFBA91E09F205R', '1991-05-09', 'f.caruso@yahoo.it',     '+39 347 1100018'),
+    ('Giovanna',  'Ferrari',   'FRRGNN85M41F205K', '1985-08-01', 'g.ferrari@gmail.com',   '+39 347 2002002'),
+    ('Maria',     'Russo',     'RSSMRA78H52F205T', '1978-06-12', 'm.russo@libero.it',     NULL),
+    ('Laura',     'Marino',    'MRNLRA69L59F205W', '1969-07-19', 'l.marino@gmail.com',    '+39 328 5501055')
+ON CONFLICT (fiscal_code) DO NOTHING;
 
 -- ── 4 new patients registered in May 2026 (populate newPatients KPI) ─────────
 INSERT INTO patient (first_name, last_name, fiscal_code, birth_date, email, phone, created_at, updated_at)
