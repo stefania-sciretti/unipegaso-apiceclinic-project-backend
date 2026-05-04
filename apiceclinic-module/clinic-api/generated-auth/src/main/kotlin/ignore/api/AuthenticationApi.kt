@@ -266,7 +266,4 @@ class AuthenticationApi(basePath: kotlin.String = defaultBasePath, client: OkHtt
         )
     }
 
-
-    private fun encodeURIComponent(uriComponent: kotlin.String): kotlin.String =
-        HttpUrl.Builder().scheme("http").host("localhost").addPathSegment(uriComponent).build().encodedPathSegments[0]
 }
