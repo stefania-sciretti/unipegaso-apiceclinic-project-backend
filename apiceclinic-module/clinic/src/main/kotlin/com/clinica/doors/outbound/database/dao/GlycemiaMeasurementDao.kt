@@ -10,7 +10,6 @@ import com.clinica.doors.outbound.database.repositories.GlycemiaMeasurementRepos
 import com.clinica.doors.outbound.database.repositories.PatientRepository
 import com.clinica.doors.outbound.database.repositories.SpecialistRepository
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 
 @Component
 class GlycemiaMeasurementDao(
@@ -19,7 +18,6 @@ class GlycemiaMeasurementDao(
     private val specialistRepository: SpecialistRepository
 ) {
 
-    @Transactional(readOnly = true)
     fun findAll(patientId: Long?): List<GlycemiaMeasurement> =
         if (patientId == null) {
             glycemiaMeasurementRepository.findAllByOrderByMeasuredAtDesc().map { it.toDomain() }
@@ -27,11 +25,9 @@ class GlycemiaMeasurementDao(
             glycemiaMeasurementRepository.findByPatientEntityIdOrderByMeasuredAtDesc(patientId).map { it.toDomain() }
         }
 
-    @Transactional(readOnly = true)
     fun findById(id: Long): GlycemiaMeasurement? =
         glycemiaMeasurementRepository.findById(id).orElse(null)?.toDomain()
 
-    @Transactional
     fun save(measurement: GlycemiaMeasurement): GlycemiaMeasurement {
         val patientEntity: PatientEntity = patientRepository.findById(measurement.patient.id)
             .orElseThrow { IllegalArgumentException("Patient not found with id: ${measurement.patient.id}") }
@@ -51,6 +47,5 @@ class GlycemiaMeasurementDao(
         return glycemiaMeasurementRepository.save(entityToSave).toDomain()
     }
 
-    @Transactional
     fun deleteById(id: Long) = glycemiaMeasurementRepository.deleteById(id)
 }

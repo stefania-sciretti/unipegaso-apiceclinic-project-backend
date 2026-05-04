@@ -4,14 +4,12 @@ import com.clinic.model.TrainingPlanRequest
 import com.clinic.model.TrainingPlanResponse
 import com.clinica.application.mappers.toResponse
 import com.clinica.application.service.TrainingPlanServicePort
-import com.clinica.security.CustomUserDetails
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -25,14 +23,8 @@ class StaffPlanController(private val trainingPlanService: TrainingPlanServicePo
         ApiResponse(responseCode = "200", description = "List returned"),
         ApiResponse(responseCode = "401", description = "Unauthorized")
     ])
-    fun findAll(
-        @AuthenticationPrincipal principal: CustomUserDetails,
-        @RequestParam(required = false) patientId: Long?
-    ): List<TrainingPlanResponse> {
-        val isAdmin = principal.authorities.any { it.authority == "ROLE_ADMIN" }
-        val resolvedPatientId = if (isAdmin) patientId else principal.patientId
-        return trainingPlanService.findAll(resolvedPatientId).map { it.toResponse() }
-    }
+    fun findAll(@RequestParam(required = false) patientId: Long?): List<TrainingPlanResponse> =
+        trainingPlanService.findAll(patientId).map { it.toResponse() }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get training plan by ID")
