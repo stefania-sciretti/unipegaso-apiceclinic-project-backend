@@ -75,8 +75,12 @@ role:     ROLE_USER
 
 ## Documentazione API
 
-Swagger UI disponibile a runtime su `http://localhost:8080/swagger-ui.html`  
-OpenAPI JSON: `http://localhost:8080/v3/api-docs`
+Swagger UI e OpenAPI JSON sono disponibili **solo con l'applicazione in esecuzione in locale**:
+
+```
+http://localhost:8080/swagger-ui.html
+http://localhost:8080/v3/api-docs
+```
 
 ### Endpoint implementati
 
