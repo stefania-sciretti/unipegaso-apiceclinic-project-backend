@@ -80,101 +80,101 @@ OpenAPI JSON: `http://localhost:8080/v3/api-docs`
 
 ### Endpoint implementati
 
-> 🔓 = pubblico · 🔒 = richiede JWT Bearer token
+> `public` = nessuna autenticazione richiesta · `auth` = richiede JWT Bearer token
 
 #### Auth
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `POST` | `/api/auth/register` | 🔓 Registra nuovo paziente + account |
-| `POST` | `/api/auth/login` | 🔓 Login — restituisce JWT |
-| `GET`  | `/api/auth/validate` | 🔓 Valida un JWT token |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `POST` | `/api/auth/register` | `public` | Registra nuovo paziente + account |
+| `POST` | `/api/auth/login` | `public` | Login — restituisce JWT |
+| `GET`  | `/api/auth/validate` | `public` | Valida un JWT token |
 
 #### Pazienti
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`    | `/api/patients` | 🔒 Lista pazienti (`?search=`) |
-| `POST`   | `/api/patients` | 🔒 Crea paziente |
-| `GET`    | `/api/patients/{id}` | 🔒 Dettaglio paziente |
-| `PUT`    | `/api/patients/{id}` | 🔒 Aggiorna paziente |
-| `DELETE` | `/api/patients/{id}` | 🔒 Elimina paziente |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`    | `/api/patients` | `auth` | Lista pazienti (`?search=`) |
+| `POST`   | `/api/patients` | `auth` | Crea paziente |
+| `GET`    | `/api/patients/{id}` | `auth` | Dettaglio paziente |
+| `PUT`    | `/api/patients/{id}` | `auth` | Aggiorna paziente |
+| `DELETE` | `/api/patients/{id}` | `auth` | Elimina paziente |
 
 #### Specialisti
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`    | `/api/specialists` | 🔒 Lista specialisti (`?role=`) |
-| `POST`   | `/api/specialists` | 🔒 Crea specialista |
-| `GET`    | `/api/specialists/{id}` | 🔒 Dettaglio specialista |
-| `PUT`    | `/api/specialists/{id}` | 🔒 Aggiorna specialista |
-| `DELETE` | `/api/specialists/{id}` | 🔒 Elimina specialista |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`    | `/api/specialists` | `auth` | Lista specialisti (`?role=`) |
+| `POST`   | `/api/specialists` | `auth` | Crea specialista |
+| `GET`    | `/api/specialists/{id}` | `auth` | Dettaglio specialista |
+| `PUT`    | `/api/specialists/{id}` | `auth` | Aggiorna specialista |
+| `DELETE` | `/api/specialists/{id}` | `auth` | Elimina specialista |
 
 #### Appuntamenti
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`    | `/api/appointments` | 🔒 Lista appuntamenti (`?patientId`, `?specialistId`, `?status`) |
-| `POST`   | `/api/appointments` | 🔒 Prenota appuntamento |
-| `GET`    | `/api/appointments/{id}` | 🔒 Dettaglio appuntamento |
-| `PUT`    | `/api/appointments/{id}/status` | 🔒 Aggiorna stato |
-| `DELETE` | `/api/appointments/{id}` | 🔒 Cancella appuntamento (soft) |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`    | `/api/appointments` | `auth` | Lista appuntamenti (`?patientId`, `?specialistId`, `?status`) |
+| `POST`   | `/api/appointments` | `auth` | Prenota appuntamento |
+| `GET`    | `/api/appointments/{id}` | `auth` | Dettaglio appuntamento |
+| `PUT`    | `/api/appointments/{id}/status` | `auth` | Aggiorna stato |
+| `DELETE` | `/api/appointments/{id}` | `auth` | Cancella appuntamento (soft) |
 
 #### Referti
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`  | `/api/reports` | 🔒 Lista referti |
-| `POST` | `/api/reports` | 🔒 Crea referto (appuntamento COMPLETED) |
-| `GET`  | `/api/reports/{id}` | 🔒 Dettaglio referto |
-| `PUT`  | `/api/reports/{id}` | 🔒 Aggiorna referto |
-| `GET`  | `/api/reports/appointment/{appointmentId}` | 🔒 Referto per appuntamento |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`  | `/api/reports` | `auth` | Lista referti |
+| `POST` | `/api/reports` | `auth` | Crea referto (appuntamento `COMPLETED`) |
+| `GET`  | `/api/reports/{id}` | `auth` | Dettaglio referto |
+| `PUT`  | `/api/reports/{id}` | `auth` | Aggiorna referto |
+| `GET`  | `/api/reports/appointment/{appointmentId}` | `auth` | Referto per appuntamento |
 
 #### Piani dietetici
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`    | `/api/diet-plans` | 🔒 Lista piani (`?patientId`) |
-| `POST`   | `/api/diet-plans` | 🔒 Crea piano dietetico |
-| `GET`    | `/api/diet-plans/{id}` | 🔒 Dettaglio piano |
-| `PUT`    | `/api/diet-plans/{id}` | 🔒 Aggiorna piano |
-| `DELETE` | `/api/diet-plans/{id}` | 🔒 Elimina piano |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`    | `/api/diet-plans` | `auth` | Lista piani (`?patientId`) |
+| `POST`   | `/api/diet-plans` | `auth` | Crea piano dietetico |
+| `GET`    | `/api/diet-plans/{id}` | `auth` | Dettaglio piano |
+| `PUT`    | `/api/diet-plans/{id}` | `auth` | Aggiorna piano |
+| `DELETE` | `/api/diet-plans/{id}` | `auth` | Elimina piano |
 
 #### Piani di allenamento
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`    | `/api/training-plans` | 🔒 Lista piani (`?patientId`) |
-| `POST`   | `/api/training-plans` | 🔒 Crea piano di allenamento |
-| `GET`    | `/api/training-plans/{id}` | 🔒 Dettaglio piano |
-| `PUT`    | `/api/training-plans/{id}` | 🔒 Aggiorna piano |
-| `DELETE` | `/api/training-plans/{id}` | 🔒 Elimina piano |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`    | `/api/training-plans` | `auth` | Lista piani (`?patientId`) |
+| `POST`   | `/api/training-plans` | `auth` | Crea piano di allenamento |
+| `GET`    | `/api/training-plans/{id}` | `auth` | Dettaglio piano |
+| `PUT`    | `/api/training-plans/{id}` | `auth` | Aggiorna piano |
+| `DELETE` | `/api/training-plans/{id}` | `auth` | Elimina piano |
 
 #### Misurazioni glicemia
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`    | `/api/glycemia-measurements` | 🔒 Lista misurazioni (`?patientId`) |
-| `POST`   | `/api/glycemia-measurements` | 🔒 Registra misurazione |
-| `GET`    | `/api/glycemia-measurements/{id}` | 🔒 Dettaglio misurazione |
-| `PUT`    | `/api/glycemia-measurements/{id}` | 🔒 Aggiorna misurazione |
-| `DELETE` | `/api/glycemia-measurements/{id}` | 🔒 Elimina misurazione |
-| `GET`    | `/api/glycemia-measurements/classification-rules` | 🔒 Regole classificazione ADA/WHO |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`    | `/api/glycemia-measurements` | `auth` | Lista misurazioni (`?patientId`) |
+| `POST`   | `/api/glycemia-measurements` | `auth` | Registra misurazione |
+| `GET`    | `/api/glycemia-measurements/{id}` | `auth` | Dettaglio misurazione |
+| `PUT`    | `/api/glycemia-measurements/{id}` | `auth` | Aggiorna misurazione |
+| `DELETE` | `/api/glycemia-measurements/{id}` | `auth` | Elimina misurazione |
+| `GET`    | `/api/glycemia-measurements/classification-rules` | `auth` | Regole classificazione ADA/WHO |
 
 #### Ricette
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`    | `/api/recipes` | 🔒 Lista ricette (`?category`, `?search`) |
-| `POST`   | `/api/recipes` | 🔒 Crea ricetta |
-| `GET`    | `/api/recipes/{id}` | 🔒 Dettaglio ricetta |
-| `PUT`    | `/api/recipes/{id}` | 🔒 Aggiorna ricetta |
-| `DELETE` | `/api/recipes/{id}` | 🔒 Elimina ricetta |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`    | `/api/recipes` | `auth` | Lista ricette (`?category`, `?search`) |
+| `POST`   | `/api/recipes` | `auth` | Crea ricetta |
+| `GET`    | `/api/recipes/{id}` | `auth` | Dettaglio ricetta |
+| `PUT`    | `/api/recipes/{id}` | `auth` | Aggiorna ricetta |
+| `DELETE` | `/api/recipes/{id}` | `auth` | Elimina ricetta |
 
 #### Servizi
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET`    | `/api/services` | 🔒 Lista servizi (`?specialistId`) |
-| `POST`   | `/api/services` | 🔒 Crea servizio |
-| `GET`    | `/api/services/{id}` | 🔒 Dettaglio servizio |
-| `PUT`    | `/api/services/{id}` | 🔒 Aggiorna servizio |
-| `DELETE` | `/api/services/{id}` | 🔒 Elimina servizio |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET`    | `/api/services` | `auth` | Lista servizi (`?specialistId`) |
+| `POST`   | `/api/services` | `auth` | Crea servizio |
+| `GET`    | `/api/services/{id}` | `auth` | Dettaglio servizio |
+| `PUT`    | `/api/services/{id}` | `auth` | Aggiorna servizio |
+| `DELETE` | `/api/services/{id}` | `auth` | Elimina servizio |
 
 #### Dashboard
-| Metodo | Path | Descrizione |
-|--------|------|-------------|
-| `GET` | `/api/dashboard` | 🔒 Statistiche aggregate (`?period=6m`) |
+| Metodo | Path | Auth | Descrizione |
+|--------|------|------|-------------|
+| `GET` | `/api/dashboard` | `auth` | Statistiche aggregate (`?period=6m`) |
 
 ---
 
