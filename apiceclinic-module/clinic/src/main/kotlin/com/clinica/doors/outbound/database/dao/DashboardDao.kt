@@ -28,13 +28,12 @@ class DashboardDao(
         val now = LocalDateTime.now()
         val startOfMonth = now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0)
         val startOfNextMonth = startOfMonth.plusMonths(1)
-        val startOfPrevMonth = startOfMonth.minusMonths(1)
         val startOfPeriod = startOfMonth.minusMonths(months.toLong() - 1)
 
         val allFromDate = appointmentRepository.findAllFromDate(startOfPeriod)
 
         return DashboardStatsResponse(
-            kpi = computeKpi(now, startOfMonth, startOfNextMonth, startOfPrevMonth),
+            kpi = computeKpi(now, startOfMonth, startOfNextMonth, startOfPeriod, months),
             revenueByMonth = computeRevenueByMonth(allFromDate),
             appointmentsByMonth = computeAppointmentsByMonth(allFromDate),
             revenueByArea = computeRevenueByArea(allFromDate)
@@ -45,13 +44,15 @@ class DashboardDao(
         now: LocalDateTime,
         startOfMonth: LocalDateTime,
         startOfNextMonth: LocalDateTime,
-        startOfPrevMonth: LocalDateTime
+        startOfPeriod: LocalDateTime,
+        months: Int
     ): KpiStats {
+        val startOfPrevPeriod = startOfPeriod.minusMonths(months.toLong())
         val revenueMonth = appointmentRepository
-            .sumPriceByStatusBetween("COMPLETED", startOfMonth, startOfNextMonth)
+            .sumPriceByStatusBetween("COMPLETED", startOfPeriod, startOfNextMonth)
             .toDouble().round2()
         val revenuePrevMonth = appointmentRepository
-            .sumPriceByStatusBetween("COMPLETED", startOfPrevMonth, startOfMonth)
+            .sumPriceByStatusBetween("COMPLETED", startOfPrevPeriod, startOfPeriod)
             .toDouble().round2()
         val activePatients = appointmentRepository
             .countDistinctPatientsByStatusIn(listOf("BOOKED", "CONFIRMED"), startOfMonth, startOfNextMonth)

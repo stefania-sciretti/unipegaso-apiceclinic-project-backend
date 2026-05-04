@@ -15,7 +15,7 @@ class TrainingPlanEntity(
     var patientEntity: PatientEntity,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "trainer_id", nullable = false)
+    @JoinColumn(name = "specialist_id", nullable = false)
     var specialist: SpecialistEntity,
 
     @Column(nullable = false, length = 255)
