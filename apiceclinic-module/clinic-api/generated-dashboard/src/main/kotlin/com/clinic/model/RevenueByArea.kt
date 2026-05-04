@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * 
  *
  * @param area 
- * @param total 
+ * @param total Total revenue for the area in the period (€)
  */
 
 
@@ -32,6 +32,7 @@ data class RevenueByArea (
     @field:JsonProperty("area")
     val area: AreaInfo,
 
+    /* Total revenue for the area in the period (€) */
     @field:JsonProperty("total")
     val total: kotlin.Double
 

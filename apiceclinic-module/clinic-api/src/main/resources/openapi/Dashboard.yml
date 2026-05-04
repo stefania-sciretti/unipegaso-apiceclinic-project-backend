@@ -1,233 +1,171 @@
 openapi: 3.0.0
 info:
-  title: Appointment API
-  description: Unified appointment booking and management
+  title: Dashboard API
+  description: Aggregated statistics for the clinic dashboard
   version: "1.0.0"
 servers:
   - url: "http://localhost:8080"
 
 paths:
-  /api/appointments:
+  /api/dashboard:
     get:
-      summary: List all appointments
-      description: Returns all appointments, optionally filtered by patientId, specialistId or status
-      operationId: findAllAppointments
-      tags: [Appointments]
+      summary: Get dashboard statistics
+      description: >
+        Returns aggregated KPIs, revenue by month, appointments by month and revenue by area.
+        The `period` parameter controls how many months of historical data are included.
+      operationId: getDashboard
+      tags: [Dashboard]
       parameters:
-        - name: patientId
+        - name: period
           in: query
           required: false
-          schema: { type: integer, format: int64 }
-        - name: specialistId
-          in: query
-          required: false
-          schema: { type: integer, format: int64 }
-        - name: status
-          in: query
-          required: false
-          schema: { type: string }
+          description: "Time period: 1m, 3m, 6m (default), 1y"
+          schema:
+            type: string
+            enum: [1m, 3m, 6m, 1y]
+            default: 6m
+            example: "6m"
       responses:
         "200":
-          description: List of appointments
+          description: Dashboard statistics
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/AppointmentResponse"
-        "401":
-          description: Unauthorized
-
-    post:
-      summary: Book a new appointment
-      operationId: createAppointment
-      tags: [Appointments]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AppointmentRequest"
-      responses:
-        "201":
-          description: Appointment booked
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AppointmentResponse"
+                $ref: "#/components/schemas/DashboardStatsResponse"
         "400":
-          description: Validation error
-        "401":
-          description: Unauthorized
-
-  /api/appointments/{id}:
-    get:
-      summary: Get appointment by ID
-      operationId: getAppointmentById
-      tags: [Appointments]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema: { type: integer, format: int64 }
-      responses:
-        "200":
-          description: Appointment found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AppointmentResponse"
-        "404":
-          description: Appointment not found
-        "401":
-          description: Unauthorized
-
-    delete:
-      summary: Cancel an appointment (soft cancel — sets status to CANCELLED)
-      operationId: deleteAppointment
-      tags: [Appointments]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema: { type: integer, format: int64 }
-      responses:
-        "204":
-          description: Appointment cancelled
-        "404":
-          description: Appointment not found
-        "401":
-          description: Unauthorized
-
-  /api/appointments/{id}/status:
-    put:
-      summary: Update appointment status
-      operationId: updateAppointmentStatus
-      tags: [Appointments]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema: { type: integer, format: int64 }
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AppointmentStatusRequest"
-      responses:
-        "200":
-          description: Status updated
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AppointmentResponse"
-        "400":
-          description: Validation error
-        "404":
-          description: Appointment not found
+          description: Invalid period value
         "401":
           description: Unauthorized
 
 components:
   schemas:
-    AppointmentRequest:
+
+    KpiStats:
       type: object
       required:
-        - patientId
-        - specialistId
-        - scheduledAt
-        - serviceType
+        - revenueMonth
+        - revenuePrevMonth
+        - activePatients
+        - newPatients
+        - appointmentsMonth
+        - cancellationRate
+        - agendaOccupancy
       properties:
-        patientId:
-          type: integer
-          format: int64
-          example: 1
-        specialistId:
-          type: integer
-          format: int64
-          example: 2
-        scheduledAt:
-          type: string
-          format: date-time
-          example: "2026-06-15T10:30:00"
-        serviceType:
-          type: string
-          minLength: 1
-          example: "PERSONAL_TRAINING"
-        notes:
-          type: string
-          nullable: true
-        price:
+        revenueMonth:
           type: number
           format: double
-          nullable: true
-          default: 0
-          example: 50.0
+          description: Revenue for the current month (€)
+          example: 4250.00
+        revenuePrevMonth:
+          type: number
+          format: double
+          description: Revenue for the previous month (€)
+          example: 3980.00
+        activePatients:
+          type: integer
+          format: int64
+          description: Number of active patients in the period
+          example: 42
+        newPatients:
+          type: integer
+          format: int64
+          description: New patients registered in the period
+          example: 7
+        appointmentsMonth:
+          type: integer
+          format: int64
+          description: Total appointments in the current month
+          example: 38
+        cancellationRate:
+          type: number
+          format: double
+          description: Appointment cancellation rate (0–1)
+          example: 0.08
+        agendaOccupancy:
+          type: number
+          format: double
+          description: Agenda occupancy rate (0–1)
+          example: 0.75
 
-    AppointmentStatusRequest:
+    RevenueByMonth:
       type: object
-      required:
-        - status
+      required: [month, total]
       properties:
-        status:
+        month:
           type: string
-          minLength: 1
-          example: "COMPLETED"
+          description: Month label (yyyy-MM)
+          example: "2026-04"
+        total:
+          type: number
+          format: double
+          description: Total revenue for the month (€)
+          example: 3980.00
 
-    AppointmentResponse:
+    AppointmentsByMonth:
       type: object
-      required:
-        - id
-        - patientId
-        - patientFullName
-        - specialistId
-        - specialistFullName
-        - specialistRole
-        - scheduledAt
-        - serviceType
-        - status
-        - hasReport
-        - price
-        - createdAt
+      required: [month, booked, completed, cancelled]
       properties:
-        id:
+        month:
+          type: string
+          description: Month label (yyyy-MM)
+          example: "2026-04"
+        booked:
           type: integer
           format: int64
-        patientId:
+          example: 45
+        completed:
           type: integer
           format: int64
-        patientFullName:
-          type: string
-        specialistId:
+          example: 38
+        cancelled:
           type: integer
           format: int64
-        specialistFullName:
-          type: string
-        specialistRole:
-          type: string
-        scheduledAt:
-          type: string
-          format: date-time
-        serviceType:
-          type: string
-        status:
-          type: string
-        notes:
-          type: string
-          nullable: true
-        hasReport:
-          type: boolean
+          example: 4
+
+    AreaInfo:
+      type: object
+      required: [areaId, areaName]
+      properties:
         areaId:
           type: integer
           format: int64
-          nullable: true
+          example: 1
         areaName:
           type: string
-          nullable: true
-        price:
+          example: "Alimentazione"
+
+    RevenueByArea:
+      type: object
+      required: [area, total]
+      properties:
+        area:
+          $ref: "#/components/schemas/AreaInfo"
+        total:
           type: number
           format: double
-        createdAt:
-          type: string
-          format: date-time
+          description: Total revenue for the area in the period (€)
+          example: 1200.00
+
+    DashboardStatsResponse:
+      type: object
+      required:
+        - kpi
+        - revenueByMonth
+        - appointmentsByMonth
+        - revenueByArea
+      properties:
+        kpi:
+          $ref: "#/components/schemas/KpiStats"
+        revenueByMonth:
+          type: array
+          items:
+            $ref: "#/components/schemas/RevenueByMonth"
+        appointmentsByMonth:
+          type: array
+          items:
+            $ref: "#/components/schemas/AppointmentsByMonth"
+        revenueByArea:
+          type: array
+          items:
+            $ref: "#/components/schemas/RevenueByArea"
+

@@ -21,43 +21,43 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * 
  *
- * @param revenueMonth Total revenue for the current month
- * @param revenuePrevMonth Total revenue for the previous month
- * @param activePatients Number of active patients (booked or confirmed appointments this month)
- * @param newPatients New patients registered this month
- * @param appointmentsMonth Total appointments this month
- * @param cancellationRate Cancellation rate as a percentage
- * @param agendaOccupancy Agenda occupancy rate as a percentage
+ * @param revenueMonth Revenue for the current month (€)
+ * @param revenuePrevMonth Revenue for the previous month (€)
+ * @param activePatients Number of active patients in the period
+ * @param newPatients New patients registered in the period
+ * @param appointmentsMonth Total appointments in the current month
+ * @param cancellationRate Appointment cancellation rate (0–1)
+ * @param agendaOccupancy Agenda occupancy rate (0–1)
  */
 
 
 data class KpiStats (
 
-    /* Total revenue for the current month */
+    /* Revenue for the current month (€) */
     @field:JsonProperty("revenueMonth")
     val revenueMonth: kotlin.Double,
 
-    /* Total revenue for the previous month */
+    /* Revenue for the previous month (€) */
     @field:JsonProperty("revenuePrevMonth")
     val revenuePrevMonth: kotlin.Double,
 
-    /* Number of active patients (booked or confirmed appointments this month) */
+    /* Number of active patients in the period */
     @field:JsonProperty("activePatients")
     val activePatients: kotlin.Long,
 
-    /* New patients registered this month */
+    /* New patients registered in the period */
     @field:JsonProperty("newPatients")
     val newPatients: kotlin.Long,
 
-    /* Total appointments this month */
+    /* Total appointments in the current month */
     @field:JsonProperty("appointmentsMonth")
     val appointmentsMonth: kotlin.Long,
 
-    /* Cancellation rate as a percentage */
+    /* Appointment cancellation rate (0–1) */
     @field:JsonProperty("cancellationRate")
     val cancellationRate: kotlin.Double,
 
-    /* Agenda occupancy rate as a percentage */
+    /* Agenda occupancy rate (0–1) */
     @field:JsonProperty("agendaOccupancy")
     val agendaOccupancy: kotlin.Double
 

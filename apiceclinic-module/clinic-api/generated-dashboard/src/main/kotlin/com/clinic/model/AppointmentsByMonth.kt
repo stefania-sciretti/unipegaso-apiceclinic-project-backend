@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * 
  *
- * @param month Month in yyyy-MM format
+ * @param month Month label (yyyy-MM)
  * @param booked 
  * @param completed 
  * @param cancelled 
@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class AppointmentsByMonth (
 
-    /* Month in yyyy-MM format */
+    /* Month label (yyyy-MM) */
     @field:JsonProperty("month")
     val month: kotlin.String,
 

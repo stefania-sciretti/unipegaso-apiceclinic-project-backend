@@ -50,7 +50,6 @@ class PatientController(
     fun create(@Valid @RequestBody request: PatientRequest): PatientResponse =
         patientService.create(request).toResponse()
 
-    //TODO("se rimane tempo implementiamo, altrimenti ciao")
     @GetMapping("/{id}")
     @Operation(summary = "Get patient by ID")
     @ApiResponses(value = [

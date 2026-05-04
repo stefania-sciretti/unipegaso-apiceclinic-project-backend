@@ -46,9 +46,19 @@ class DashboardApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClie
     }
 
     /**
+     * enum for parameter period
+     */
+     enum class PeriodGetDashboard(val value: kotlin.String) {
+         @JsonProperty(value = "1m") _1m("1m"),
+         @JsonProperty(value = "3m") _3m("3m"),
+         @JsonProperty(value = "6m") _6m("6m"),
+         @JsonProperty(value = "1y") _1y("1y")
+     }
+
+    /**
      * Get dashboard statistics
-     * 
-     * @param period Time period: 1m, 3m, 6m, 1y (optional, default to "6m")
+     * Returns aggregated KPIs, revenue by month, appointments by month and revenue by area. The &#x60;period&#x60; parameter controls how many months of historical data are included. 
+     * @param period Time period: 1m, 3m, 6m (default), 1y (optional, default to 6m)
      * @return DashboardStatsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -58,7 +68,7 @@ class DashboardApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getDashboard(period: kotlin.String? = "6m") : DashboardStatsResponse {
+    fun getDashboard(period: PeriodGetDashboard? = PeriodGetDashboard._6m) : DashboardStatsResponse {
         val localVarResponse = getDashboardWithHttpInfo(period = period)
 
         return when (localVarResponse.responseType) {
@@ -78,15 +88,15 @@ class DashboardApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClie
 
     /**
      * Get dashboard statistics
-     * 
-     * @param period Time period: 1m, 3m, 6m, 1y (optional, default to "6m")
+     * Returns aggregated KPIs, revenue by month, appointments by month and revenue by area. The &#x60;period&#x60; parameter controls how many months of historical data are included. 
+     * @param period Time period: 1m, 3m, 6m (default), 1y (optional, default to 6m)
      * @return ApiResponse<DashboardStatsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getDashboardWithHttpInfo(period: kotlin.String?) : ApiResponse<DashboardStatsResponse?> {
+    fun getDashboardWithHttpInfo(period: PeriodGetDashboard?) : ApiResponse<DashboardStatsResponse?> {
         val localVariableConfig = getDashboardRequestConfig(period = period)
 
         return request<Unit, DashboardStatsResponse>(
@@ -97,15 +107,15 @@ class DashboardApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClie
     /**
      * To obtain the request config of the operation getDashboard
      *
-     * @param period Time period: 1m, 3m, 6m, 1y (optional, default to "6m")
+     * @param period Time period: 1m, 3m, 6m (default), 1y (optional, default to 6m)
      * @return RequestConfig
      */
-    fun getDashboardRequestConfig(period: kotlin.String?) : RequestConfig<Unit> {
+    fun getDashboardRequestConfig(period: PeriodGetDashboard?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (period != null) {
-                    put("period", listOf(period.toString()))
+                    put("period", listOf(period.value))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -121,4 +131,7 @@ class DashboardApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClie
         )
     }
 
+
+    private fun encodeURIComponent(uriComponent: kotlin.String): kotlin.String =
+        HttpUrl.Builder().scheme("http").host("localhost").addPathSegment(uriComponent).build().encodedPathSegments[0]
 }

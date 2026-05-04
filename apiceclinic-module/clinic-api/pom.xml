@@ -51,8 +51,26 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>${openapi.generator.version}</version>
+                <!-- Configurazione comune a tutte le execution -->
+                <configuration>
+                    <generatorName>kotlin</generatorName>
+                    <modelPackage>com.clinic.model</modelPackage>
+                    <modelOnly>true</modelOnly>
+                    <apiPackage>ignore.api</apiPackage>
+                    <generateModelTests>false</generateModelTests>
+                    <generateApiTests>false</generateApiTests>
+                    <generateApiDocumentation>false</generateApiDocumentation>
+                    <generateModelDocumentation>false</generateModelDocumentation>
+                    <generateSupportingFiles>false</generateSupportingFiles>
+                    <supportingFilesToGenerate/>
+                    <configOptions>
+                        <dateLibrary>java8</dateLibrary>
+                        <serializationLibrary>jackson</serializationLibrary>
+                        <useBeanValidation>true</useBeanValidation>
+                        <useSpringBoot3>true</useSpringBoot3>
+                    </configOptions>
+                </configuration>
                 <executions>
-                    <!-- Appointment -->
                     <execution>
                         <id>generate-appointment-models</id>
                         <phase>generate-sources</phase>
@@ -60,240 +78,8 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/openapi/Appointment.yml</inputSpec>
                             <output>${project.basedir}/generated-appointment</output>
-
-                            <!-- SOLO model -->
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <!-- niente API, niente supporting files -->
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
                         </configuration>
                     </execution>
-
-                    <!-- DietPlan -->
-                    <execution>
-                        <id>generate-dietplan-models</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/DietPlan.yml</inputSpec>
-                            <output>${project.basedir}/generated-dietplan</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
-                    <!-- Patient -->
-                    <execution>
-                        <id>generate-patient-models</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/Patient.yml</inputSpec>
-                            <output>${project.basedir}/generated-patient</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
-                    <!-- Staff -->
-                    <execution>
-                        <id>generate-staff-models</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/Specialist.yml</inputSpec>
-                            <output>${project.basedir}/generated-staff</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
-                    <!-- Recipe -->
-                    <execution>
-                        <id>generate-recipe-models</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/Recipe.yml</inputSpec>
-                            <output>${project.basedir}/generated-recipe</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
-                    <!-- Report -->
-                    <execution>
-                        <id>generate-report-models</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/Report.yml</inputSpec>
-                            <output>${project.basedir}/generated-report</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
-                    <!-- GlycemiaMeasurements -->
-                    <execution>
-                        <id>generate-glycemia-models</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/GlycemiaMeasurements.yaml</inputSpec>
-                            <output>${project.basedir}/generated-glycemia</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>generate-service-models</id>
-                        <phase>generate-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/Service.yml</inputSpec>
-                            <output>${project.basedir}/generated-service</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-
-                    <!-- Auth -->
                     <execution>
                         <id>generate-auth-models</id>
                         <phase>generate-sources</phase>
@@ -301,29 +87,80 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/openapi/Auth.yml</inputSpec>
                             <output>${project.basedir}/generated-auth</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
                         </configuration>
                     </execution>
-
-                    <!-- TrainingPlan -->
+                    <execution>
+                        <id>generate-dashboard-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/Dashboard.yml</inputSpec>
+                            <output>${project.basedir}/generated-dashboard</output>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-dietplan-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/DietPlan.yml</inputSpec>
+                            <output>${project.basedir}/generated-dietplan</output>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-glycemia-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/GlycemiaMeasurements.yaml</inputSpec>
+                            <output>${project.basedir}/generated-glycemia</output>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-patient-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/Patient.yml</inputSpec>
+                            <output>${project.basedir}/generated-patient</output>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-recipe-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/Recipe.yml</inputSpec>
+                            <output>${project.basedir}/generated-recipe</output>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-report-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/Report.yml</inputSpec>
+                            <output>${project.basedir}/generated-report</output>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-service-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/Service.yml</inputSpec>
+                            <output>${project.basedir}/generated-service</output>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-staff-models</id>
+                        <phase>generate-sources</phase>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/Specialist.yml</inputSpec>
+                            <output>${project.basedir}/generated-staff</output>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>generate-trainingplan-models</id>
                         <phase>generate-sources</phase>
@@ -331,25 +168,6 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/openapi/TrainingPlan.yml</inputSpec>
                             <output>${project.basedir}/generated-trainingplan</output>
-
-                            <generatorName>kotlin</generatorName>
-                            <modelPackage>com.clinic.model</modelPackage>
-                            <modelOnly>true</modelOnly>
-
-                            <apiPackage>ignore.api</apiPackage>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <supportingFilesToGenerate/>
-
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
                         </configuration>
                     </execution>
                 </executions>
@@ -377,6 +195,7 @@
                                 <source>${project.basedir}/generated-report/src/main/kotlin/com/clinic/model</source>
                                 <source>${project.basedir}/generated-service/src/main/kotlin/com/clinic/model</source>
                                 <source>${project.basedir}/generated-trainingplan/src/main/kotlin/com/clinic/model</source>
+                                <source>${project.basedir}/generated-dashboard/src/main/kotlin/com/clinic/model</source>
                             </sources>
                         </configuration>
                     </execution>

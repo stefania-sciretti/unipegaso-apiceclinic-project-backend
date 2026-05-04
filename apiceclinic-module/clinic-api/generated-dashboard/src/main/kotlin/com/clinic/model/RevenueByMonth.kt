@@ -21,17 +21,18 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * 
  *
- * @param month Month in yyyy-MM format
- * @param total 
+ * @param month Month label (yyyy-MM)
+ * @param total Total revenue for the month (€)
  */
 
 
 data class RevenueByMonth (
 
-    /* Month in yyyy-MM format */
+    /* Month label (yyyy-MM) */
     @field:JsonProperty("month")
     val month: kotlin.String,
 
+    /* Total revenue for the month (€) */
     @field:JsonProperty("total")
     val total: kotlin.Double
 
