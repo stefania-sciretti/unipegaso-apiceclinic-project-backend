@@ -2,6 +2,7 @@ package com.clinica.doors.inbound.routes.controller
 
 import com.clinica.application.service.GlycemiaMeasurementService
 import com.clinica.application.mappers.toResponse
+import com.clinica.security.CustomUserDetails
 import com.clinic.model.GlycemiaMeasurementRequest
 import com.clinic.model.GlycemiaClassificationRulesResponse
 import com.clinic.model.GlycemiaContextRules
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -34,9 +36,13 @@ class GlycemiaMeasurementController(
     ])
     fun findAll(
         @Parameter(description = "Filter by patient ID")
+        @AuthenticationPrincipal principal: CustomUserDetails,
         @RequestParam(required = false) patientId: Long?
-    ): List<GlycemiaMeasurementResponse> =
-        glycemiaMeasurementService.findAll(patientId).map { it.toResponse() }
+    ): List<GlycemiaMeasurementResponse> {
+        val isAdmin = principal.authorities.any { it.authority == "ROLE_ADMIN" }
+        val resolvedPatientId = if (isAdmin) patientId else principal.patientId
+        return glycemiaMeasurementService.findAll(resolvedPatientId).map { it.toResponse() }
+    }
 
     @GetMapping("/classification-rules")
     @Operation(
