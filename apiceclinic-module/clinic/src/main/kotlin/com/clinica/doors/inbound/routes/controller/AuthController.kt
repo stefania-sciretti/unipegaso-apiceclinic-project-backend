@@ -88,16 +88,17 @@ class AuthController {
             val role = authentication.authorities
                 .firstOrNull()?.authority ?: "ROLE_USER"
 
-            val userId = userRepository.findByUsername(loginRequest.username)
-                .map { it.id ?: 0L }
-                .orElse(0L)
+            val user = userRepository.findByUsername(loginRequest.username).orElse(null)
+            val userId = user?.id ?: 0L
+            val patientId = user?.patientId
 
             val loginResponse = LoginResponse(
                 accessToken = token,
                 tokenType = "Bearer",
                 username = loginRequest.username,
                 role = role,
-                userId = userId
+                userId = userId,
+                patientId = patientId
             )
 
             logger.debug("Login successful: username={}, role={}", loginRequest.username, role)

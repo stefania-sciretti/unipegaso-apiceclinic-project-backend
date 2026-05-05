@@ -25,8 +25,8 @@ class ReportController(
         ApiResponse(responseCode = "200", description = "List returned"),
         ApiResponse(responseCode = "401", description = "Unauthorized")
     ])
-    fun findAll(): List<ReportResponse> =
-        reportService.findAll().map { it.toResponse() }
+    fun findAll(@RequestParam patientId: Long? = null): List<ReportResponse> =
+        reportService.findAll(patientId).map { it.toResponse() }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get report by ID")

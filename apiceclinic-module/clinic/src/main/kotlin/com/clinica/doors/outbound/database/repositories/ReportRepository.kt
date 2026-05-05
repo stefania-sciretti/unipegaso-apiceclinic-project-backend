@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository
 interface ReportRepository : JpaRepository<ReportEntity, Long> {
     fun findByAppointmentEntityId(appointmentId: Long): ReportEntity?
     fun existsByAppointmentEntityId(appointmentId: Long): Boolean
+    fun findByAppointmentEntityPatientEntityId(patientId: Long): List<ReportEntity>
 
     @Query("SELECT r.appointmentEntity.id FROM ReportEntity r WHERE r.appointmentEntity.id IN :ids")
     fun findAppointmentIdsWithReports(@Param("ids") ids: List<Long>): List<Long>

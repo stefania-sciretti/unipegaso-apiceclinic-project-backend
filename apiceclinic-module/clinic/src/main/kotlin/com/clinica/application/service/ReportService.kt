@@ -17,7 +17,9 @@ class ReportService(
 ) {
 
     @Transactional(readOnly = true)
-    fun findAll(): List<Report> = reportDao.findAll()
+    fun findAll(patientId: Long?): List<Report> =
+        if (patientId != null) reportDao.findByPatientId(patientId)
+        else reportDao.findAll()
 
     @Transactional(readOnly = true)
     fun findById(id: Long): Report =

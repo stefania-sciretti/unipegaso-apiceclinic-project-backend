@@ -29,5 +29,8 @@ data class UserEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at")
-    var updatedAt: LocalDateTime? = null
+    var updatedAt: LocalDateTime? = null,
+
+    @Column(name = "patient_id")
+    val patientId: Long? = null
 )

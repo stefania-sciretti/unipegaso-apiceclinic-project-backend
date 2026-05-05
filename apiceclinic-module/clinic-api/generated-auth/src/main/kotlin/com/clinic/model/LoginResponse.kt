@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param username Username dell'utente autenticato
  * @param role Ruolo dell'utente (ROLE_USER o ROLE_ADMIN)
  * @param userId ID univoco dell'utente autenticato
+ * @param patientId ID del profilo paziente collegato (null per admin)
  */
 
 
@@ -49,7 +50,11 @@ data class LoginResponse (
 
     /* ID univoco dell'utente autenticato */
     @field:JsonProperty("userId")
-    val userId: kotlin.Long
+    val userId: kotlin.Long,
+
+    /* ID del profilo paziente collegato (null per admin) */
+    @field:JsonProperty("patientId")
+    val patientId: kotlin.Long? = null
 
 )
 

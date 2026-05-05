@@ -39,7 +39,7 @@ data class AppointmentRequest (
     val specialistId: kotlin.Long,
 
     @field:JsonProperty("scheduledAt")
-    val scheduledAt: java.time.OffsetDateTime,
+    val scheduledAt: java.time.LocalDateTime,
 
     @field:JsonProperty("serviceType")
     val serviceType: kotlin.String,

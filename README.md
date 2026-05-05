@@ -64,10 +64,11 @@ password: admin123
 role:     ROLE_ADMIN
 ```
 
-### Utente standard
+### Paziente della clinica
 ```
-username: user
-password: user123
+username: a.russo
+password: paziente123
+paziente: Alessandro Russo
 role:     ROLE_USER
 ```
 
@@ -313,3 +314,147 @@ erDiagram
     patient      ||--o| users               : "linked to"
 ```
 
+---
+
+## Diagramma UML delle Classi
+
+```mermaid
+classDiagram
+    direction TB
+
+    class Areas {
+        +Long id
+        +String name
+    }
+
+    class Specialist {
+        +Long id
+        +String firstName
+        +String lastName
+        +String role
+        +String bio
+        +String email
+        +Long areaId
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    class Patient {
+        +Long id
+        +String firstName
+        +String lastName
+        +String fiscalCode
+        +LocalDate birthDate
+        +String email
+        +String phone
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    class Users {
+        +Long id
+        +String username
+        +String password
+        +String email
+        +String role
+        +Boolean enabled
+        +Long patientId
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    class Appointment {
+        +Long id
+        +Long patientId
+        +Long specialistId
+        +LocalDateTime scheduledAt
+        +String visitType
+        +String status
+        +String notes
+        +BigDecimal price
+        +LocalDateTime updatedAt
+    }
+
+    class Report {
+        +Long id
+        +Long appointmentId
+        +LocalDate issuedDate
+        +String diagnosis
+        +String prescription
+        +String specialistNotes
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    class DietPlan {
+        +Long id
+        +Long patientId
+        +Long specialistId
+        +String title
+        +String description
+        +Int calories
+        +Int durationWeeks
+        +Boolean active
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    class TrainingPlan {
+        +Long id
+        +Long patientId
+        +Long specialistId
+        +String title
+        +String description
+        +Int weeks
+        +Int sessionsPerWeek
+        +Boolean active
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    class GlycemiaMeasurement {
+        +Long id
+        +Long patientId
+        +Long specialistId
+        +LocalDateTime measuredAt
+        +Int valueMgDl
+        +String context
+        +String notes
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    class Services {
+        +Long id
+        +String service
+        +BigDecimal price
+        +Long specialistId
+        +Long areaId
+    }
+
+    class Recipe {
+        +Long id
+        +String title
+        +String description
+        +String ingredients
+        +String instructions
+        +Int calories
+        +String category
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    Areas        "1" --> "0..*" Specialist         : groups
+    Areas        "1" --> "0..*" Services           : categorizes
+    Patient      "1" --> "0..*" Appointment        : books
+    Specialist   "1" --> "0..*" Appointment        : manages
+    Appointment  "1" --> "0..1" Report             : generates
+    Patient      "1" --> "0..*" DietPlan           : follows
+    Specialist   "1" --> "0..*" DietPlan           : assigns
+    Patient      "1" --> "0..*" TrainingPlan       : follows
+    Specialist   "1" --> "0..*" TrainingPlan       : assigns
+    Patient      "1" --> "0..*" GlycemiaMeasurement: has
+    Specialist   "1" --> "0..*" GlycemiaMeasurement: records
+    Specialist   "1" --> "0..*" Services           : offers
+    Patient      "1" --> "0..1" Users              : linked to
+```

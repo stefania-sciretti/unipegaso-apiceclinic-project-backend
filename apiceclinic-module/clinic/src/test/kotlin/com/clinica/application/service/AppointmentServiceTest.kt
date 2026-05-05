@@ -22,7 +22,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @ExtendWith(MockKExtension::class)
 class AppointmentServiceTest {
@@ -59,7 +58,7 @@ class AppointmentServiceTest {
 
     private fun buildRequest() = AppointmentRequest(
         patientId = 1L, specialistId = 1L,
-        scheduledAt = fixedTime.atOffset(ZoneOffset.UTC),
+        scheduledAt = fixedTime,
         serviceType = "PERSONAL_TRAINING", notes = "Note", price = 50.0
     )
 

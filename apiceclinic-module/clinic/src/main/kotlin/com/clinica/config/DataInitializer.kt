@@ -42,6 +42,20 @@ class DataInitializer {
             println("✓ Utente user creato (user/user123)")
         }
 
+        // ── Utenti paziente ─────────────────────────────────────────────────
+        if (!userRepository.existsByUsername("a.russo")) {
+            val patient = patientRepository.findByFiscalCode("RSSALS80A01H501R")
+            userRepository.save(UserEntity(
+                username  = "a.russo",
+                password  = passwordEncoder.encode("paziente123"),
+                email     = "a.russo@gmail.com",
+                role      = "ROLE_USER",
+                enabled   = true,
+                patientId = patient?.id
+            ))
+            println("✓ Utente paziente creato (a.russo/paziente123)")
+        }
+
         // ── Specialisti ──────────────────────────────────────────────────────
         if (specialistRepository.count() == 0L) {
             specialistRepository.saveAll(listOf(

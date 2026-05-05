@@ -50,7 +50,7 @@ class AppointmentService(
                 id = 0L,
                 patient = patient,
                 specialist = specialist,
-                scheduledAt = request.scheduledAt.toLocalDateTime(),
+                scheduledAt = request.scheduledAt,
                 serviceType = request.serviceType,
                 status = AppointmentStatusEnum.BOOKED,
                 notes = request.notes,

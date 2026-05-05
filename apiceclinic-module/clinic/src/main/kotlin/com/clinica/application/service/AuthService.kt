@@ -34,16 +34,6 @@ class AuthService(
             "Email '${registerRequest.email}' già associata a un paziente"
         }
 
-        val user = userRepository.save(
-            UserEntity(
-                username = registerRequest.username,
-                password = passwordEncoder.encode(registerRequest.password),
-                email = registerRequest.email,
-                role = "ROLE_USER",
-                enabled = true
-            )
-        )
-
         val patient = patientRepository.save(
             PatientEntity(
                 id = 0L,
@@ -55,6 +45,17 @@ class AuthService(
                 phone = registerRequest.phone,
                 createdAt = LocalDateTime.now(),
                 updatedAt = LocalDateTime.now()
+            )
+        )
+
+        val user = userRepository.save(
+            UserEntity(
+                username = registerRequest.username,
+                password = passwordEncoder.encode(registerRequest.password),
+                email = registerRequest.email,
+                role = "ROLE_USER",
+                enabled = true,
+                patientId = patient.id
             )
         )
 

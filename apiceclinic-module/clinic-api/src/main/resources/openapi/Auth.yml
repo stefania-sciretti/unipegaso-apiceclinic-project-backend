@@ -93,6 +93,8 @@ paths:
                 tokenType: "Bearer"
                 username: "mario.rossi"
                 role: "ROLE_USER"
+                userId: 7
+                patientId: 3
         '401':
           description: Credenziali non valide
           content:
@@ -271,6 +273,12 @@ components:
           format: int64
           description: ID univoco dell'utente autenticato
           example: 7
+        patientId:
+          type: integer
+          format: int64
+          nullable: true
+          description: ID del profilo paziente collegato (null per admin)
+          example: 3
 
     TokenValidationResponse:
       type: object

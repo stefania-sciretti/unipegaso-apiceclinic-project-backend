@@ -75,7 +75,7 @@ class ReportServiceTest {
     fun `findAll returns all reports`() {
         every { reportDao.findAll() } returns listOf(buildReport(1L), buildReport(2L))
 
-        val result = service.findAll()
+        val result = service.findAll(null)
 
         assertEquals(2, result.size)
         verify { reportDao.findAll() }
@@ -85,7 +85,7 @@ class ReportServiceTest {
     fun `findAll returns empty list when no reports exist`() {
         every { reportDao.findAll() } returns emptyList()
 
-        val result = service.findAll()
+        val result = service.findAll(null)
 
         assertEquals(0, result.size)
         verify { reportDao.findAll() }

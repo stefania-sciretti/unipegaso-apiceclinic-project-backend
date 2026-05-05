@@ -17,6 +17,9 @@ class ReportDao(
     fun findAll(): List<Report> =
         reportRepository.findAll().map { it.toDomain() }
 
+    fun findByPatientId(patientId: Long): List<Report> =
+        reportRepository.findByAppointmentEntityPatientEntityId(patientId).map { it.toDomain() }
+
     fun findById(id: Long): Report? =
         reportRepository.findById(id).orElse(null)?.toDomain()
 
